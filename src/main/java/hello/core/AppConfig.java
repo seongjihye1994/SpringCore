@@ -8,23 +8,30 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration // 이 클래스는 의존성 주입을 설정하는 클래스야.
 public class AppConfig {
 
+    @Bean // @Bean 태그를 설정하면 설정된 메소드 모두 스프링 컨테이너에 등록된다.
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
     }
 
     // 나의 App 에서는 MemberRepository를 Memory로 사용할거야.
     // 나중에 JDBCMemter로 바뀌면 이 코드만 바꿔주면 된다.
-    private MemberRepository memberRepository() {
+    @Bean
+    public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
 
+    @Bean
     public OrderService orderService() {
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
+    @Bean
     public DiscountPolicy discountPolicy() {
         // return new FixDiscountPolicy();
         return new RateDiscountPolicy();
