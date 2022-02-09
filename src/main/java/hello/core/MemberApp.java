@@ -18,7 +18,7 @@ public class MemberApp {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         // AppConfig에 있는 설정 정보를 기반으로 @Bean으로 등록된 객체들을 스프링 컨테이너에 등록하고 관리함.
         // 기존에는 AppConfig 객체를 생성해서 appConfig.memberService 처럼 직접 찾아왔다.
-        // 하지만 이 스프링 컨테이너(ApplicationContext)를 사용하면 applicationContext.getBean() 을 통해 찾아올 수 있다.
+        // 하지만 이 스프링 컨테이너(ApplicationContext)를 사용하면 appl    icationContext.getBean() 을 통해 찾아올 수 있다.
         MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
                                                         // 파라미터 2개 (1번 파라미터: Bean 이름이고 메소드명이다. 2번 파라미터: Bean의 return 타입)
 
