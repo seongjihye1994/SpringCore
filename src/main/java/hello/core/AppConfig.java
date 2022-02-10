@@ -14,8 +14,28 @@ import org.springframework.context.annotation.Configuration;
 @Configuration // 이 클래스는 의존성 주입을 설정하는 클래스야.
 public class AppConfig {
 
+    // @Bean memberService -> new MemoryMemberRepository()
+    // @Bean orderService -> new MemoryMemberRepository()
+    // 2번 호출되네? 싱글톤 깨지는거 아녀?
+
+    // 우리가 예상한 결과
+        // call AppConfig.memberService
+        // call AppConfig.memberRepository
+        // call AppConfig.memberRepository
+        // call AppConfig.orderService
+        // call AppConfig.memberRepository
+
+    // 실제 Test 결과
+        // call AppConfig.memberService
+        // call AppConfig.memberRepository
+        // call AppConfig.orderService
+
+    // 실제로는 memberRepository가 한번 호출됐다.
+
+
     @Bean // @Bean 태그를 설정하면 설정된 메소드 모두 스프링 컨테이너에 등록된다.
     public MemberService memberService() {
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
@@ -23,11 +43,13 @@ public class AppConfig {
     // 나중에 JDBCMemter로 바뀌면 이 코드만 바꿔주면 된다.
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
     @Bean
     public OrderService orderService() {
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 

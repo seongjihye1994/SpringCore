@@ -33,4 +33,9 @@ public class OrderServiceImpl implements OrderService {
         // 3. 할인 적용된 금액으로 주문 생성
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
+
+    // 테스트 용도
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 }
